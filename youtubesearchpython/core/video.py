@@ -39,6 +39,7 @@ class VideoCore(RequestCore):
     async def async_create(self):
         response = await self.asyncPostRequest()
         self.response = response.text
+        print(self.response)
         if response.status_code == 200:
             self.post_request_processing()
         else:

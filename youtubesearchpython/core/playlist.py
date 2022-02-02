@@ -167,6 +167,7 @@ class PlaylistCore(RequestCore):
                 "id": self.__getValue(inforenderer, ["title", "runs", 0, "navigationEndpoint", "watchEndpoint", "playlistId"]),
                 "thumbnails": self.__getValue(inforenderer, ["thumbnailRenderer", "playlistVideoThumbnailRenderer", "thumbnail", "thumbnails"]),
                 "title": self.__getValue(inforenderer, ["title", "runs", 0, "text"]),
+                "description": self.__getValue(inforenderer, ["description", "simpleText"]),
                 "videoCount": self.__getValue(inforenderer, ["stats", 0, "runs", 0, "text"]),
                 "viewCount": self.__getValue(inforenderer, ["stats", 1, "simpleText"]),
                 "link": self.__getValue(self.responseSource, ["microformat", "microformatDataRenderer", "urlCanonical"]),

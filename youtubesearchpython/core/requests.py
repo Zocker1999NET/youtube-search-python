@@ -12,10 +12,10 @@ class RequestCore:
         self.proxy = {}
         http_proxy = os.environ.get("HTTP_PROXY")
         if http_proxy:
-            self.proxy["http://"] = http_proxy
+            self.proxy["http://"] = httpx.HTTPTransport(proxy=http_proxy)
         https_proxy = os.environ.get("HTTPS_PROXY")
         if https_proxy:
-            self.proxy["https://"] = https_proxy
+            self.proxy["https://"] = httpx.HTTPTransport(proxy=https_proxy)
 
     def syncPostRequest(self) -> httpx.Response:
         return httpx.post(
@@ -23,11 +23,11 @@ class RequestCore:
             headers={"User-Agent": userAgent},
             json=self.data,
             timeout=self.timeout,
-            proxies=self.proxy,
+            mounts=self.proxy,
         )
 
     async def asyncPostRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(proxies=self.proxy) as client:
+        async with httpx.AsyncClient(mounts=self.proxy) as client:
             r = await client.post(
                 self.url,
                 headers={"User-Agent": userAgent},
@@ -42,11 +42,11 @@ class RequestCore:
             headers={"User-Agent": userAgent},
             timeout=self.timeout,
             cookies={"CONSENT": "YES+1"},
-            proxies=self.proxy,
+            mounts=self.proxy,
         )
 
     async def asyncGetRequest(self) -> httpx.Response:
-        async with httpx.AsyncClient(proxies=self.proxy) as client:
+        async with httpx.AsyncClient(mounts=self.proxy) as client:
             r = await client.get(
                 self.url,
                 headers={"User-Agent": userAgent},
